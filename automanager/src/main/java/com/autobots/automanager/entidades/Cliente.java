@@ -11,17 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import org.springframework.hateoas.RepresentationModel;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
-public class Cliente extends RepresentationModel<Cliente>{
+public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,8 +31,8 @@ public class Cliente extends RepresentationModel<Cliente>{
 	private Date dataCadastro;
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Documento> documentos = new ArrayList<>();
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	private Endereco endereco;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Endereco> endereco;
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Telefone> telefones = new ArrayList<>();
 
