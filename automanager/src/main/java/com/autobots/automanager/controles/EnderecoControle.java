@@ -14,17 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Endereco;
 import com.autobots.automanager.modelo.AdicionadorLinkEndereco;
 import com.autobots.automanager.modelo.EnderecoAtualizador;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.EnderecoRepositorio;
+import com.autobots.automanager.repositorios.ClienteRepositorio;
 
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoControle {
 	@Autowired
 	private EnderecoRepositorio repositorio;
+	@Autowired
+	private ClienteRepositorio ClienteRepositorio;
 	@Autowired
 	private AdicionadorLinkEndereco adicionadorLink;
 
@@ -55,15 +59,20 @@ public class EnderecoControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (endereco != null) {
+			Cliente cliente = ClienteRepositorio.getById(id);
+			List<Endereco> enderecos = cliente.getEndereco();
+			enderecos.add(endereco);
+			cliente.setEndereco(enderecos);
+			ClienteRepositorio.save(cliente);
 			repositorio.save(endereco);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
-
+		
 	}
 
 	@PutMapping("/atualizar")
@@ -81,12 +90,21 @@ public class EnderecoControle {
 		return new ResponseEntity<>(status);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEndereco(@RequestBody Endereco exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEndereco(@RequestBody Endereco exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Endereco endereco = repositorio.getById(exclusao.getId());
 		if (endereco != null) {
-			repositorio.delete(endereco);
+			Cliente cliente = ClienteRepositorio.getById(id);
+			List<Endereco> enderecos = cliente.getEndereco();
+			for (int i=0; i<enderecos.size(); i++) {
+				if (enderecos.get(i).getId() == exclusao.getId()) {
+					enderecos.remove(i);
+					break;
+				}
+			}
+			cliente.setEndereco(enderecos);
+			ClienteRepositorio.save(cliente);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

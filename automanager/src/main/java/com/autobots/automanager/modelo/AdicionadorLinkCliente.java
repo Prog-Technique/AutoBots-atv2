@@ -16,22 +16,70 @@ public class AdicionadorLinkCliente implements Adicionador<Cliente> {
 	public void adicionarLink(List<Cliente> lista) {
 		for (Cliente cliente : lista) {
 			long id = cliente.getId();
-			Link linkProprio = WebMvcLinkBuilder
+			Link linkProprioCliente = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(ClienteControle.class)
 							.obterCliente(id))
 					.withSelfRel();
-			cliente.add(linkProprio);
+			Link linkProprioExcluir = WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder
+							.methodOn(ClienteControle.class)
+							.excluirCliente(cliente))
+					.withSelfRel();
+			Link linkProprioAtualizar = WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder
+							.methodOn(ClienteControle.class)
+							.atualizarCliente(cliente))
+					.withSelfRel();
+			Link linkProprioCadastrar = WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder
+							.methodOn(ClienteControle.class)
+							.cadastrarCliente(cliente))
+					.withSelfRel();
+			Link linkProprioClientes = WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder
+							.methodOn(ClienteControle.class)
+							.obterClientes())
+					.withSelfRel();
+			cliente.add(linkProprioCliente);
+			cliente.add(linkProprioExcluir);
+			cliente.add(linkProprioAtualizar);
+			cliente.add(linkProprioCadastrar);
+			cliente.add(linkProprioClientes);
 		}
 	}
 
 	@Override
 	public void adicionarLink(Cliente objeto) {
-		Link linkProprio = WebMvcLinkBuilder
+		Link linkProprioCliente = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(ClienteControle.class)
+						.obterCliente(objeto.getId()))
+				.withRel("cliente");
+		Link linkProprioClientes = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(ClienteControle.class)
 						.obterClientes())
 				.withRel("clientes");
-		objeto.add(linkProprio);
+		Link linkProprioCadastrar = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(ClienteControle.class)
+						.cadastrarCliente(objeto))
+				.withRel("cadastrar");
+		Link linkProprioAtualizar = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(ClienteControle.class)
+						.atualizarCliente(objeto))
+				.withRel("atualizar");
+		Link linkProprioExcluir = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder
+						.methodOn(ClienteControle.class)
+						.excluirCliente(objeto))
+				.withRel("excluir");
+		objeto.add(linkProprioCliente);
+		objeto.add(linkProprioClientes);
+		objeto.add(linkProprioCadastrar);
+		objeto.add(linkProprioAtualizar);
+		objeto.add(linkProprioExcluir);
 	}
 }
