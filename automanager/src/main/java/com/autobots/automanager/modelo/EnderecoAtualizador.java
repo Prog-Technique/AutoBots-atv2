@@ -29,7 +29,6 @@ public class EnderecoAtualizador {
 			}
 		}
 	}
-	
 	public void atualizar(List<Endereco> enderecos, List<Endereco> atualizacoes) {
 		for (Endereco atualizacao : atualizacoes) {
 			for (Endereco endereco : enderecos) {

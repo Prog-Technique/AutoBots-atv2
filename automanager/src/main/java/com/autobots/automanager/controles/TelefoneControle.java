@@ -62,7 +62,7 @@ public class TelefoneControle {
 	@PostMapping("/cadastro/{id}")
 	public ResponseEntity<?> cadastrarTelefone(@RequestBody Telefone telefone, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
-		if (telefone == null) {
+		if (telefone.getId() == null) {
 			Cliente cliente = ClienteRepositorio.getById(id);
 			List<Telefone> telefones = cliente.getTelefones();
 			telefones.add(telefone);

@@ -10,7 +10,7 @@ import com.autobots.automanager.controles.EnderecoControle;
 import com.autobots.automanager.entidades.Endereco;
 
 @Component
-public class AdicionadorLinkEndereco implements Adicionador<Endereco>{
+public class AdicionadorLinkEndereco implements AdicionadorLink<Endereco>{
 
 	@Override
 	public void adicionarLink(List<Endereco> lista) {

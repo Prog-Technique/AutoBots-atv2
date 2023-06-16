@@ -10,7 +10,7 @@ import com.autobots.automanager.controles.TelefoneControle;
 import com.autobots.automanager.entidades.Telefone;
 
 @Component
-public class AdicionadorLinkTelefone implements Adicionador<Telefone>{
+public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone>{
 
 	@Override
 	public void adicionarLink(List<Telefone> lista) {

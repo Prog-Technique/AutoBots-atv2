@@ -10,7 +10,7 @@ import com.autobots.automanager.controles.ClienteControle;
 import com.autobots.automanager.entidades.Cliente;
 
 @Component
-public class AdicionadorLinkCliente implements Adicionador<Cliente> {
+public class AdicionadorLinkCliente implements AdicionadorLink<Cliente> {
 
 	@Override
 	public void adicionarLink(List<Cliente> lista) {
